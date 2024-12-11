@@ -13,10 +13,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run loop in script
+      - name: Run loop with random tasks
         run: |
           echo "Starting loop"
-          for i in {1..5}; do
-            echo "Loop iteration $i"
+          SECONDS=0  # Start counting the seconds
+          while [ $SECONDS -lt 3600 ]; do  # Loop for one hour (3600 seconds)
+            RANDOM_TASK=$((RANDOM % 5))  # Generate a random number to decide the task
+            echo "Random Task: $RANDOM_TASK"
+            
+            case $RANDOM_TASK in
+              0)
+                echo "Running Task 1: Sleeping for 10 seconds"
+                sleep 10
+                ;;
+              1)
+                echo "Running Task 2: Listing directory contents"
+                ls -l
+                ;;
+              2)
+                echo "Running Task 3: Displaying system info"
+                uname -a
+                ;;
+              3)
+                echo "Running Task 4: Printing date and time"
+                date
+                ;;
+              4)
+                echo "Running Task 5: Creating a temporary file"
+                touch temp_file_$(date +%s).txt
+                ;;
+              *)
+                echo "Unknown task"
+                ;;
+            esac
+            # Wait for a few seconds before running the next task
+            sleep $((RANDOM % 30 + 5))  # Sleep between 5 and 35 seconds
           done
-          echo "Loop finished"
+          echo "Loop finished after $SECONDS seconds"
