@@ -1,0 +1,22 @@
+name: Loop Example
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the 'main' branch
+
+jobs:
+  loop-job:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run loop in script
+        run: |
+          echo "Starting loop"
+          for i in {1..5}; do
+            echo "Loop iteration $i"
+          done
+          echo "Loop finished"
